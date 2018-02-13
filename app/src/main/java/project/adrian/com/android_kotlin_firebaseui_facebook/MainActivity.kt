@@ -13,13 +13,10 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
-
-
-
 class MainActivity : AppCompatActivity() {
 
     companion object {
-        private val TAG = "MainActivity"
+        private val TAG = MainActivity::class.java.simpleName
         private val RC_SIGN_IN = 9001
     }
 
@@ -34,7 +31,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        checkLoggedUser()
+        updateUI()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -44,8 +41,8 @@ class MainActivity : AppCompatActivity() {
 
             if (resultCode == Activity.RESULT_OK) {
                 Log.e(TAG, "succesful login");
-                checkLoggedUser()
-//                startActivity(SignedInActivity.createIntent(this, response))
+                updateUI()
+//                startActivity()
 //                finish()
                 return
             } else {
@@ -87,17 +84,34 @@ class MainActivity : AppCompatActivity() {
 
         btnLogout.setOnClickListener {
             AuthUI.getInstance().signOut(this)
-            checkLoggedUser()
+            updateUI()
             Toast.makeText(this, "logged out", Toast.LENGTH_SHORT).show()
             Log.e(TAG, "logged out");
         }
     }
 
-    private fun checkLoggedUser() {
-        if (firebaseAuth.currentUser != null) {
-            tvSignedInStatus.text = "signed in as -> ${firebaseAuth.currentUser?.displayName}"
+    private fun updateUI() {
+        updateText()
+        updateButtons()
+    }
+
+    private fun isLoggedUser() = firebaseAuth.currentUser != null
+
+    private fun updateButtons() {
+        if (isLoggedUser()) {
+            btnLogin.isEnabled = false
+            btnLogout.isEnabled = true
         } else {
-            tvSignedInStatus.text = "NOT signed in"
+            btnLogin.isEnabled = true
+            btnLogout.isEnabled = false
+        }
+    }
+
+    private fun updateText() {
+        if (isLoggedUser()) {
+            tvSignedInStatus.text = "Signed in as: ${firebaseAuth.currentUser?.displayName}"
+        } else {
+            tvSignedInStatus.text = "Signed out"
         }
     }
 
