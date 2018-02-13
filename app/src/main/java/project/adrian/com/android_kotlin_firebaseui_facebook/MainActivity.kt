@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        updateUI()
+        refresh()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
 
             if (resultCode == Activity.RESULT_OK) {
                 Log.e(TAG, "succesful login");
-                updateUI()
+                refresh()
 //                startActivity()
 //                finish()
                 return
@@ -84,13 +84,13 @@ class MainActivity : AppCompatActivity() {
 
         btnLogout.setOnClickListener {
             AuthUI.getInstance().signOut(this)
-            updateUI()
+            refresh()
             Toast.makeText(this, "logged out", Toast.LENGTH_SHORT).show()
             Log.e(TAG, "logged out");
         }
     }
 
-    private fun updateUI() {
+    private fun refresh() {
         updateText()
         updateButtons()
     }
