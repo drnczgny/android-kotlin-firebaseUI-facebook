@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">facebooklogin</string>
+
+    <string name="facebook_app_id" translatable="false">394124127703419</string>
+    <!-- Facebook Application ID, prefixed by 'fb'. Enables Chrome Custom tabs. -->
+    <string name="fb_login_protocol_scheme" translatable="false">fb394124127703419</string>
+</resources>
